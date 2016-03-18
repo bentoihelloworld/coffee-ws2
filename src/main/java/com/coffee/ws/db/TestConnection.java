@@ -9,6 +9,11 @@ public class TestConnection {
 	public static void main(String args[]) {
 
 		try {
+			
+//			String OS = System.getProperty("os.name");
+//			if(OS.contains("Window"))
+//					System.out.println(OS);
+//			System.exit(0);
 
 			Class.forName("org.postgresql.Driver");
 
