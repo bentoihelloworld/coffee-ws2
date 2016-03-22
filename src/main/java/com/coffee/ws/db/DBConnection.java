@@ -14,7 +14,7 @@ public class DBConnection {
 		return DriverManager.getConnection(DATABASEURI);
 	}
 
-	public Connection getConnectionURI() throws URISyntaxException, SQLException {
+	public Connection connectURI() throws URISyntaxException, SQLException {
 		String compname = System.getenv("COMPUTERNAME");
 		URI dbUri;
 
@@ -37,13 +37,18 @@ public class DBConnection {
 		String username = dbUri.getUserInfo().split(":")[0];
 		String password = dbUri.getUserInfo().split(":")[1];
 
-		System.out.println("username-->" + username);
-		System.out.println("password-->" + password);
+		// System.out.println("username-->" + username);
+		// System.out.println("password-->" + password);
 
 		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?user="
 				+ username + "&password=" + password;
 
-		System.out.println("db url: " + dbUrl);
+		if (dbUri.getHost().isEmpty() || dbUri.getPort() == 0 || dbUri.getPath().isEmpty() || username.isEmpty()
+				|| password.isEmpty()) {
+			throw new SQLException("Database credentials missing");
+		}
+
+		// System.out.println("db url: " + dbUrl);
 
 		return DriverManager.getConnection(dbUrl);
 	}
