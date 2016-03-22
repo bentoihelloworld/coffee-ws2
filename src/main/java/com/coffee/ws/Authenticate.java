@@ -21,8 +21,15 @@ public class Authenticate {
 
 		String output = "DB not connected";
 		Statement st = null;
+		ResultSet rs = null;
+		Statement st1 = null;
+		String tablename = "AUTHENTICATION";
+
 		String sql = "CREATE TABLE AUTHENTICATION " + "(id INTEGER not NULL, " + " username VARCHAR(10), "
 				+ " password VARCHAR(10), " + " PRIMARY KEY ( id ))";
+
+		String sqlForTable = "SELECT tables.table_name FROM information_schema.tables WHERE table_name = '" + tablename
+				+ "'";
 
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -31,12 +38,28 @@ public class Authenticate {
 			Connection con = dbconn.connectURI();
 
 			if (con != null) {
+				st = con.createStatement();
+				rs = st.executeQuery(sqlForTable);
 
-//				st = con.createStatement();
-//				st.executeUpdate(sql);
+				if (rs != null) {
+
+					while (rs.next()) {
+						if (rs.getString(1).equalsIgnoreCase(tablename)) {
+							output = "table is exists :" + tablename;
+						} else {
+							st1 = con.createStatement();
+							st1.executeUpdate(sql);
+
+							output = "table is not exist and create new :" + tablename;
+
+						}
+
+					}
+
+				}
 
 				output = "Created table in given database...";
-//				System.out.println("Created table in given database...");
+				// System.out.println("Created table in given database...");
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -53,12 +76,13 @@ public class Authenticate {
 		return Response.status(200).entity(output).build();
 
 	}
+
 	@GET
 	@Path("/insertvalue")
-	public Response getResponseforInsertValue(){
-		
+	public Response getResponseforInsertValue() {
+
 		return Response.status(200).entity("value is inserted joke lang...").build();
-		
-	} 
+
+	}
 
 }
