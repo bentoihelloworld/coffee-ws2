@@ -32,8 +32,8 @@ public class Authenticate {
 
 			if (con != null) {
 
-				st = con.createStatement();
-				st.executeUpdate(sql);
+//				st = con.createStatement();
+//				st.executeUpdate(sql);
 
 				output = "Created table in given database...";
 //				System.out.println("Created table in given database...");
@@ -53,5 +53,12 @@ public class Authenticate {
 		return Response.status(200).entity(output).build();
 
 	}
+	@GET
+	@Path("/insertvalue")
+	public Response getResponseforInsertValue(){
+		
+		return Response.status(200).entity("value is inserted joke lang...").build();
+		
+	} 
 
 }
