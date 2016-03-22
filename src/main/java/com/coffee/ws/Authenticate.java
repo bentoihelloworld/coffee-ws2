@@ -58,7 +58,6 @@ public class Authenticate {
 
 				}
 
-				output = "Created table in given database...";
 				// System.out.println("Created table in given database...");
 			}
 
