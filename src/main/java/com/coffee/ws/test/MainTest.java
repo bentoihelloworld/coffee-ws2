@@ -23,10 +23,11 @@ public class MainTest {
 		controller.doAppendChild();
 		controller.updateViewer();
 
-		// update xmlviewer
+		// update xmlviewer by carmake
 		controller.setDoc(xml.parseDocument());
-		controller.setValueOfRunningCount("1002");
-		controller.updateRunningCarCountValue();
+		controller.setStrCarMake("Toyota");
+		controller.setValueOfRunningCount("10021");
+		controller.updateRunningCarCountValueByCarMake();
 		controller.updateViewer();
 
 	}

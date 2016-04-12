@@ -23,6 +23,15 @@ public class AuctionController {
 	public Attr runningcount;
 	public String valueOfRunningCount;
 	public Document doc;
+	public String strCarMake;
+
+	public String getStrCarMake() {
+		return strCarMake;
+	}
+
+	public void setStrCarMake(String strCarMake) {
+		model.setCarmake(strCarMake);
+	}
 
 	public Document getDoc() {
 		return doc;
@@ -98,7 +107,7 @@ public class AuctionController {
 
 	}
 
-	public void updateRunningCarCountValue() {
+	public void updateRunningCarCountValueByCarMake() {
 
 		Node auclocation = model.getDocument().getElementsByTagName(model.getCarmake()).item(0);
 		NamedNodeMap attr = auclocation.getAttributes();
