@@ -18,7 +18,7 @@ public class XMLHandler {
 
 	}
 
-	public void createNewDocument() {
+	public Document createNewDocument() {
 
 		try {
 			documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -28,6 +28,8 @@ public class XMLHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return document;
 
 	}
 
