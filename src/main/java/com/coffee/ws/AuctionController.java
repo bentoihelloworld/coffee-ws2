@@ -109,17 +109,44 @@ public class AuctionController {
 
 	public void updateRunningCarCountValueByCarMake() {
 
-		Node auclocation = model.getDocument().getElementsByTagName(model.getCarmake()).item(0);
-		NamedNodeMap attr = auclocation.getAttributes();
+		Node auctioncarmake = model.getDocument().getElementsByTagName(model.getCarmake()).item(0);
+		NamedNodeMap attr = auctioncarmake.getAttributes();
 		Node rcountattr = attr.getNamedItem("runningcount");
 		rcountattr.setTextContent(model.getRunningcount());
 
+	}
+	
+	public void updateAuctionStatusByAuctionLocation(Status stat){
+		
+		Node auctLoc = model.getDocument().getElementsByTagName(model.getAuctionLocation()).item(0);
+		NamedNodeMap attr = auctLoc.getAttributes();
+		Node rcountattr = attr.getNamedItem("status");
+		rcountattr.setTextContent(String.valueOf(stat));
+		
+	}
+
+	public boolean isAuctionRunning() {
+		boolean isRunning = false;
+
+		Node auctionStatus = model.getDocument().getElementsByTagName(model.getAuctionLocation()).item(0);
+		NamedNodeMap attr = auctionStatus.getAttributes();
+		Node auctStat = attr.getNamedItem("status");
+		
+
+
+		if (auctStat.getNodeValue().equals(String.valueOf(Status.STARTED)) || auctStat.getNodeValue().equals(String.valueOf(Status.RUNNING))) {
+			
+			System.out.println("--->" + auctStat.getNodeValue());
+			isRunning = true;
+		}
+
+		return isRunning;
 	}
 
 	public void updateViewer() {
 
 		viewer = new XMLViewer(model.getDocument());
-		viewer.generateXMLViewer(false);
+		viewer.generateXMLViewer(true);
 
 	}
 

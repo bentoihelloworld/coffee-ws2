@@ -48,7 +48,7 @@ public class XMLViewer {
 
 			transformer.transform(domsource, streamresult);
 			
-			System.out.println("Done generating XML file");
+			System.out.println("Done updating XML file");
 
 		} catch (TransformerConfigurationException e) {
 			// TODO Auto-generated catch block

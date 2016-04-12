@@ -25,15 +25,10 @@ public class DataCollection {
 		if (bauth.isUserAuthenticated(header)) {
 
 			AuctionData model = fetchDataFromSource();
-			XMLViewer viewer = new XMLViewer(model.getDocument());
+			
+			DataCollectionThread thr = new DataCollectionThread(model, "DataCollection");
+			thr.start();
 
-			AuctionController controller = new AuctionController(model, viewer);
-			controller.createAuctionElementforViewer();
-			controller.createAuctionAttributeforViewer();
-			controller.setAttrValueforViewer();
-			controller.setAttrNodeforViewer();
-			controller.doAppendChild();
-			controller.updateViewer();
 
 		}
 
@@ -44,17 +39,12 @@ public class DataCollection {
 		AuctionData m = new AuctionData();
 
 		m.setRootElem("Auction");
-		m.setAuctionLocation("Japan");
+		m.setAuctionLocation("Cebu");
 		m.setAuctionStatus(Status.STARTED);
 		m.setAuctionLocationID("101");
 		m.setCarmake("Toyota");
-		m.setCarcount("100");
+		m.setCarcount("10");
 		m.setRunningcount("0");
-
-		XMLHandler xml = new XMLHandler(m.getRootElem());
-
-		m.setDocument(xml.createNewDocument());
-
 		return m;
 	}
 
