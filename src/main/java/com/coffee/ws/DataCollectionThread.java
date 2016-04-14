@@ -1,5 +1,7 @@
 package com.coffee.ws;
 
+import java.io.File;
+
 import com.coffee.ws.data.AuctionData;
 import com.coffee.ws.data.Status;
 
@@ -8,25 +10,59 @@ public class DataCollectionThread extends Thread {
 	public AuctionData model;
 	private Thread t;
 	private String threadName;
+	public AuctionController controller;
+	public XMLViewer viewer;
+	public XMLHandler xml;
 
 	public DataCollectionThread(AuctionData model, String threadName) {
 		this.model = model;
 		this.threadName = threadName;
+
+		initialize();
+		File f = new File(XMLViewer.XMLVIEWER);
+
+		if (f.exists()) {
+			insertNewElemAttr();
+		} else {
+			createNewDocument();
+		}
 	}
 
-	public void run() {
-		XMLViewer viewer = new XMLViewer(model.getDocument());
-		XMLHandler xml = new XMLHandler(model.getRootElem());
+	public void initialize() {
+		viewer = new XMLViewer(model.getDocument());
+		xml = new XMLHandler(model.getRootElem());
+		controller = new AuctionController(model, viewer);
 
-		AuctionController controller = new AuctionController(model, viewer);
+	}
+
+	public void createNewDocument() {
 
 		controller.setDoc(xml.createNewDocument());
+		setCreateElementAttr();
+		controller.doAppendChild();
+		controller.updateViewer();
+
+	}
+
+	public void insertNewElemAttr() {
+		
+		System.out.println("xml viewer is exist: do insert element");
+		controller.setDoc(xml.parseDocument());
+		setCreateElementAttr();
+		controller.doInsertChild();
+		controller.updateViewer();
+
+	}
+
+	public void setCreateElementAttr() {
+
 		controller.createAuctionElementforViewer();
 		controller.createAuctionAttributeforViewer();
 		controller.setAttrValueforViewer();
 		controller.setAttrNodeforViewer();
-		controller.doAppendChild();
-		controller.updateViewer();
+	}
+
+	public void run() {
 
 		try {
 
@@ -41,7 +77,7 @@ public class DataCollectionThread extends Thread {
 					controller.updateAuctionStatusByAuctionLocation(Status.RUNNING);
 
 					countcar++;
-					sleep(10000);
+					sleep(1000);
 
 					if (countcar > Integer.valueOf(model.getCarcount())) {
 						controller.updateAuctionStatusByAuctionLocation(Status.COMPLETED);

@@ -106,6 +106,13 @@ public class AuctionController {
 		auctionlocation.appendChild(carmake);
 
 	}
+	
+	public void doInsertChild() {
+        root = model.getDocument().getDocumentElement();
+		root.appendChild(auctionlocation);
+		auctionlocation.appendChild(carmake);
+
+	}
 
 	public void updateRunningCarCountValueByCarMake() {
 
